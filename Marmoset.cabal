@@ -20,4 +20,7 @@ executable Marmoset
   -- other-modules:
   build-depends:       base ==4.5.*,
                        http-conduit,
-                       bytestring
+                       bytestring,
+                       transformers,
+                       aeson,
+                       attoparsec
