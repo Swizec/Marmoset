@@ -1,8 +1,8 @@
 
-import Network.HTTP.Conduit
 import qualified Data.ByteString.Lazy as L
 
-main = do
-  rsp <- simpleHttp "https://www.bitstamp.net/api/ticker/"
+import qualified Network.Bitstamp as Bitstamp
 
-  L.putStr rsp
+main = do
+  Bitstamp.ticker >>= L.putStr
+  Bitstamp.order_book >>= L.putStr
