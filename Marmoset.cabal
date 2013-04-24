@@ -23,4 +23,5 @@ executable Marmoset
                        bytestring,
                        transformers,
                        aeson,
-                       attoparsec
+                       attoparsec,
+                       mtl

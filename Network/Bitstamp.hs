@@ -12,6 +12,7 @@ import qualified Data.ByteString.Lazy.Char8 as BS
 import Data.Aeson
 import Data.Attoparsec.Number
 import Control.Applicative
+import Control.Monad.Trans
 
 data Ticker = Ticker
               { last::Number,
@@ -31,9 +32,8 @@ instance FromJSON Ticker where
                          v .: "bid" <*>
                          v .: "ask"
 
-
-ticker::Maybe Ticker
-ticker = decode $  get "ticker"
+ticker::Maybe (Maybe Ticker)
+ticker = fmap decode $ get "ticker"
 
 order_book = get "order_book"
 
