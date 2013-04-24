@@ -32,8 +32,9 @@ instance FromJSON Ticker where
                          v .: "bid" <*>
                          v .: "ask"
 
-ticker::Maybe Ticker
-ticker = get "ticker" >>= decode
+--ticker::(MonadIO m) => m (Maybe Ticker)
+ticker = get "ticker"
+         -- >>= return . decode
 
 order_book = get "order_book"
 
