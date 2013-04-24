@@ -32,8 +32,8 @@ instance FromJSON Ticker where
                          v .: "bid" <*>
                          v .: "ask"
 
-ticker::Maybe (Maybe Ticker)
-ticker = fmap decode $ get "ticker"
+ticker::Maybe Ticker
+ticker = get "ticker" >>= decode
 
 order_book = get "order_book"
 
