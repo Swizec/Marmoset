@@ -15,26 +15,25 @@ import Control.Applicative
 import Control.Monad.Trans
 
 data Ticker = Ticker
-              { last::Number,
-                high::Number,
-                low::Number,
-                volume::Number,
-                bid::Number,
-                ask::Number
+              { high :: String,
+                last :: String,
+                bid :: String,
+                volume :: String,
+                low :: String,
+                ask :: String
               } deriving Show
 
 instance FromJSON Ticker where
   parseJSON (Object v) = Ticker <$>
-                         v .: "last" <*>
                          v .: "high" <*>
-                         v .: "low" <*>
-                         v .: "volume" <*>
+                         v .: "last" <*>
                          v .: "bid" <*>
+                         v .: "volume" <*>
+                         v .: "low" <*>
                          v .: "ask"
 
---ticker::(MonadIO m) => m (Maybe Ticker)
-ticker = get "ticker"
-         -- >>= return . decode
+ticker::(MonadIO m) => m (Maybe Ticker)
+ticker = get "ticker" >>= return . decode
 
 order_book = get "order_book"
 
