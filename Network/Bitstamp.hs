@@ -8,11 +8,15 @@ module Network.Bitstamp (
 import Network.HTTP.Conduit
 import Control.Monad.IO.Class
 import Data.ByteString.Lazy
+import Data.Text
 import qualified Data.ByteString.Lazy.Char8 as BS
 import Data.Aeson
+import Data.Aeson.Types
 import Data.Attoparsec.Number
 import Control.Applicative
-import Control.Monad.Trans
+
+(.:!)::(FromJSON a, Read a) => Object -> Text -> Parser a
+(.:!) a b = read <$> a .: b
 
 data Ticker = Ticker
               { high :: Double,
@@ -25,12 +29,12 @@ data Ticker = Ticker
 
 instance FromJSON Ticker where
   parseJSON (Object v) = Ticker <$>
-                         (read <$> v .: "high") <*>
-                         (read <$> v .: "last") <*>
-                         (read <$> v .: "bid") <*>
-                         (read <$> v .: "volume") <*>
-                         (read <$> v .: "low") <*>
-                         (read <$> v .: "ask")
+                         v .:! "high" <*>
+                         v .:! "last" <*>
+                         v .:! "bid" <*>
+                         v .:! "volume" <*>
+                         v .:! "low" <*>
+                         v .:! "ask"
 
 ticker::(MonadIO m) => m (Maybe Ticker)
 ticker = get "ticker" >>= return . decode

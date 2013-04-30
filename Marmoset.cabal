@@ -24,4 +24,5 @@ executable Marmoset
                        transformers,
                        aeson,
                        attoparsec,
-                       mtl
+                       mtl,
+                       text
