@@ -36,6 +36,22 @@ instance FromJSON Ticker where
                          v .:! "low" <*>
                          v .:! "ask"
 
+data Order = Order
+             { [Double] }
+
+instance FromJSON Order where
+  parseJSON (Object v) = Ticker <$>
+                         v .:!
+
+data OrderBook = OrderBook
+                 { bids :: [Order],
+                   asks :: [Order] }
+
+instance FromJSON OrderBook where
+  parseJSON (Object v) = OrderBook <$>
+                         v .:! "bids" <*>
+                         v .:! "asks"
+
 ticker::(MonadIO m) => m (Maybe Ticker)
 ticker = get "ticker" >>= return . decode
 
